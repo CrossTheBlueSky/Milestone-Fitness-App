@@ -10,7 +10,8 @@ def seed_goals():
         Goal(name="10 foot lache", description="Perform a lache from one bar to another, 10 feet apart."),
         Goal(name="10 foot stride to precision", description="Perform a stride across a 10 foot gap with a precision landing"),
         Goal(name="15 foot wall pop", description="Top out on a wall 15 feet high with a wall pop."),
-        Goal(name="Kip-up on solid ground", description="Progress my kip-ups from the spring floor to solid ground")
+        Goal(name="Kip-up on solid ground", description="Progress my kip-ups from the spring floor to solid ground"),
+        Goal(name="Strict pullover to support", description="Perform a pullover to support on the high bar without kipping"),
     ]
     db.session.add_all(goals)
     db.session.commit()
