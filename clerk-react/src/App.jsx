@@ -3,18 +3,22 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { SignOutButton, SignInButton, SignedIn, SignedOut } from "@clerk/clerk-react"
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import {dark} from '@clerk/themes'
+import GoalsPage from './GoalsPage'
 
 function App() {
 
   return (
-    <div>
+    <div style={{margin : "auto"}}>
       <SignedOut>
+        <div id="login-div-background">
         <SignInButton />
-        <p>This content is public. Only signed out users can see this.</p>
+        </div>
+        
       </SignedOut>
       <SignedIn>
-        <SignOutButton afterSignOutUrl="/" />
-        <p>This content is private. Only signed in users can see this.</p>
+        <GoalsPage />
       </SignedIn>
     </div>
   )
