@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes} from "react-router-dom";
-import GoalsPage from "./GoalsPage";
+import Dashboard from "./Dashboard";
+import AddForm from "./AddForm";
 
 function Home(){
 
@@ -7,7 +8,9 @@ function Home(){
         <>
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<GoalsPage />} />
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/add-goal" element={<AddForm formType="goal" />} />
+                <Route path="/add-exercise" element={<AddForm formType="exercise" />} />
             </Routes>
         </BrowserRouter>
         </>

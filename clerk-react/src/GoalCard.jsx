@@ -1,15 +1,15 @@
-
+import "./App.css"
 
 function GoalCard(props){
 
     return(
              <article>
                 <header>
-                    <h1>{props.name}</h1>
+                    <h3>{props.name}</h3>
                 </header>
-                <body>
-                    <h3>{props.description}</h3>
-                </body>
+                <div>
+                    <p>{props.description}</p>
+                </div>
                 <footer>
 
                 </footer>
