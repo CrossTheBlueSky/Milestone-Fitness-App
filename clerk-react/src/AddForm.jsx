@@ -1,4 +1,8 @@
 import Nav from "./Nav"
+import GoalForm from "./GoalForm.jsx"
+import ExerciseForm from "./ExerciseForm.jsx"
+import WorkoutForm from "./WorkoutForm.jsx"
+import MilestoneForm from "./MilestoneForm.jsx"
 
 
 function AddPage(props){
@@ -6,23 +10,29 @@ function AddPage(props){
         return(
             <>
             <Nav />
-            <h1>GoalForm Goes Here</h1>
+            <GoalForm />
             </>
         )
     }else if(props.formType == "exercise"){
         return(
             <>
             <Nav />
-            <h1>ExerciseForm goes here</h1></>
+            <ExerciseForm /></>
         )
     }else if(props.formType == "workout"){
         return(
             <>
             <Nav />
-            <h1>WorkoutForm goes here</h1>
+            <WorkoutForm />
             </>
         )
-    }
+    }else if(props.formType == "milestone"){
+        return(
+            <>
+            <Nav />
+            <MilestoneForm />
+            </>
+        )}
 
 }
 

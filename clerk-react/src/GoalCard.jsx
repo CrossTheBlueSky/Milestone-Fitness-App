@@ -22,7 +22,7 @@ function GoalCard(props){
                     <p>{props.description}</p>
                 </div>
                 <footer>
-
+                <progress value="25" max="100"></progress>
                 </footer>
 
              </article>
