@@ -8,6 +8,7 @@ class User(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=False)
 
 class Goal(db.Model, SerializerMixin):
     __tablename__ = 'goals'

@@ -12,7 +12,7 @@ function ExercisePage(){
         fetch("/api/exercises")
         .then(r=>r.json())
         .then(data => setExercises(data))
-    })
+    }, [])
 
     const allExerciseCards = exercises.map((e)=>{
         return <ExerciseCard key={e.id} id={e.id} name={e.name} description={e.description} />

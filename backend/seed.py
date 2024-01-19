@@ -25,9 +25,21 @@ def seed_exercises():
         Exercise(name="Lunge", description="Step forward and lower yourself until your front thigh is parallel to the ground."),
         
     ]
-    print(exercises)
 
     db.session.add_all(exercises)
+    db.session.commit()
+
+def seed_workouts():
+    workouts = [
+        Workout(name="Pull Day", description="A workout focused on pulling exercises."),
+        Workout(name="Push Day", description="A workout focused on pushing exercises."),
+        Workout(name="Leg Day", description="A workout focused on leg exercises."),
+        Workout(name="Core Day", description="A workout focused on core exercises."),
+        Workout(name="Plyometrics", description="A workout focused on explosive exercises."),
+        Workout(name="Cardio", description="A workout focused on cardiovascular exercises."),
+        Workout(name="Skill Day", description="A workout focused on skill exercises."),
+    ]
+    db.session.add_all(workouts)
     db.session.commit()
 
 if __name__ == '__main__':
@@ -36,3 +48,4 @@ if __name__ == '__main__':
         db.create_all()
         seed_goals()
         seed_exercises()
+        seed_workouts()

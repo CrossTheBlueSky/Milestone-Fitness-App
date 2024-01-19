@@ -40,5 +40,28 @@ def exercises():
             e_list.append(exercise.to_dict())
         return make_response(e_list, 200)
     
+@app.route('/api/workouts', methods=["GET", "POST"])
+def workouts():
+    if request.method == "GET":
+        workouts = Workout.query.all()
+        w_list = []
+        for workout in workouts:
+            w_list.append(workout.to_dict())
+        return make_response(w_list, 200)
+
+@app.route('/api/users', methods=["GET", "POST"])
+def user():
+    if request.method == "GET":
+        u_list = []
+        users = User.query.all()
+        for user in users:
+            u_list.append(user.to_dict())
+        return make_response(u_list, 200)
+    if request.method == "POST":
+        new_user = User(username=request.json['username'], email=request.json['email'])
+        db.session.add(new_user)
+        db.session.commit()
+        return make_response(new_user.to_dict(), 200)
+    
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
