@@ -16,9 +16,23 @@ def seed_goals():
     db.session.add_all(goals)
     db.session.commit()
 
+def seed_exercises():
+    exercises = [
+        Exercise(name="Pull-up", description="Pull yourself up until your shoulders clear the bar."),
+        Exercise(name="Push-up", description="Push yourself up from the ground."),
+        Exercise(name="Chest Dip", description="Leaning forward, lower yourself between the dip bars until your elbows reach 90 degrees."),
+        Exercise(name="Squat", description="Lower yourself until your thighs are parallel to the ground."),
+        Exercise(name="Lunge", description="Step forward and lower yourself until your front thigh is parallel to the ground."),
+        
+    ]
+    print(exercises)
+
+    db.session.add_all(exercises)
+    db.session.commit()
 
 if __name__ == '__main__':
     with app.app_context():
         db.drop_all()
         db.create_all()
         seed_goals()
+        seed_exercises()

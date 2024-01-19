@@ -25,13 +25,20 @@ def goals():
         goals = Goal.query.all()
         g_list = []
         for goal in goals:
-            print("goal found")
             g_list.append(goal.to_dict())
         return make_response(g_list, 200)
     
     elif request.method == 'POST':
         return 'Post Attempted'
 
-
+@app.route('/api/exercises', methods=["GET"])
+def exercises():
+    if request.method == "GET":
+        exercises = Exercise.query.all()
+        e_list = []
+        for exercise in exercises:
+            e_list.append(exercise.to_dict())
+        return make_response(e_list, 200)
+    
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

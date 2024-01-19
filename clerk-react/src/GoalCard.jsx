@@ -1,8 +1,19 @@
 import "./App.css"
+import {useNavigate} from "react-router-dom"
+
 
 function GoalCard(props){
 
+    const navigate = useNavigate()
+
+
+    function clickHandler(){
+        navigate(`/goal/${props.id}`, { state: props })
+        
+    }
+
     return(
+        <div onClick={clickHandler}>
              <article>
                 <header>
                     <h3>{props.name}</h3>
@@ -15,6 +26,7 @@ function GoalCard(props){
                 </footer>
 
              </article>
+        </div>
         )
 
 }
