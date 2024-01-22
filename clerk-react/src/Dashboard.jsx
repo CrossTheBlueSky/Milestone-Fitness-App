@@ -12,7 +12,7 @@ function Dashboard() {
     const [allGoals, setAllGoals] = React.useState([])
 
     function getGoals() {
-        fetch('/api/Goals')
+        fetch('/api/goals')
         .then(r=>r.json())
         .then(data=>setAllGoals(data))
     }

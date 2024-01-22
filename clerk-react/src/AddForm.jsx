@@ -10,20 +10,20 @@ function AddPage(props){
         return(
             <>
             <Nav />
-            <GoalForm />
+            <GoalForm user={props.user} />
             </>
         )
     }else if(props.formType == "exercise"){
         return(
             <>
             <Nav />
-            <ExerciseForm /></>
+            <ExerciseForm user={props.user} /></>
         )
     }else if(props.formType == "workout"){
         return(
             <>
             <Nav />
-            <WorkoutForm />
+            <WorkoutForm user={props.user}/>
             </>
         )
     }else if(props.formType == "milestone"){

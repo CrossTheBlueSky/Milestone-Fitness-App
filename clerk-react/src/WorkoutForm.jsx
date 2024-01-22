@@ -1,7 +1,9 @@
 import React from "react"
+import {useNavigate} from "react-router-dom"
 
-function WorkoutForm(){
+function WorkoutForm(props){
     const [data, setData] = React.useState({name : "", description : ""})
+    const navigate = useNavigate()
 
     function changeHandler(event){
         setData({...data, [event.target.name]: event.target.value})
@@ -10,14 +12,19 @@ function WorkoutForm(){
 
     function submitHandler(event){
         event.preventDefault()
-        console.log(data)
-        // fetch("/api/Workouts", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify(data)
-        // })
+        const postObj = {
+            name: data.name,
+            description: data.description,
+            user_id: props.user.id
+        }
+        fetch("/api/workouts", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(postObj)
+        })
+        navigate("/workouts")
 
     }
 

@@ -6,8 +6,8 @@ import Login from './Login'
 
 function App() {
  
-
   return (
+
     <div style={{margin : "auto"}}>
       <SignedOut>
           <Login />
@@ -16,6 +16,7 @@ function App() {
         <Home />
       </SignedIn>
     </div>
+
   )
 }
 
