@@ -96,6 +96,7 @@ def milestone():
         milestones = Milestone.query.all()
         for milestone in milestones:
             m_list.append(milestone.to_dict())
+        print(m_list)
         return make_response(m_list, 200)
     if request.method == "POST":
         new_milestone = Milestone(
@@ -106,6 +107,21 @@ def milestone():
         db.session.add(new_milestone)
         db.session.commit()
         return make_response(new_milestone.to_dict(), 200)
+    
+@app.route('/api/milestones/<int:id>', methods=["GET", "PATCH"])
+def milestone_by_id(id):
+    print("milestone by id attempted")
+    selected_milestone = Milestone.query.filter(Milestone.id == id).first()
+    if request.method == "GET":
+        pass
+    if request.method == "PATCH":
+        print(selected_milestone)
+        for attr in request.json:
+            setattr(selected_milestone, attr, request.json.get(attr))
+        db.session.add(selected_milestone)
+        db.session.commit()
+        return make_response(selected_milestone.to_dict(), 200)
+
     
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

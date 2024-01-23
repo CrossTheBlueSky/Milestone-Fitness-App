@@ -1,16 +1,32 @@
+import React from 'react'
 
 function MilestoneRibbon(props){
 
-    const allExercises = props.exercises.map((exercise) => { 
-        return <li key={exercise.name}>{exercise.name}</li>}
+    const [exercises, setExercises] = React.useState([])
+
+    React.useEffect(()=>{
+        getExercises()
+    }, [])
+
+    function getExercises(){
+        fetch(`/api/exercises`)
+        .then(r=>r.json())
+        .then(data=>setExercises(data))
+    }
+
+
+    const allExercises = exercises.map((exercise) => { 
+        return  <>
+        <li key={exercise.name}>{exercise.name}</li>
+        </>
+        }
         )
 
-       const randomProgress = Math.floor(Math.random() * 100).toString()
 
     return(
         <>
         <h6>{props.name}</h6>
-        <progress value={randomProgress} max="100"></progress>
+        {props.completed || <button onClick={()=>props.completedHandler(props.milestone)}>Mark as Completed</button>}
         <ul><strong>Related Exercises</strong>
             {allExercises}
         </ul>

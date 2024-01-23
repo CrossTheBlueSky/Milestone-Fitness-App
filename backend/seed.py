@@ -59,7 +59,7 @@ def seed_workouts():
     db.session.commit()
 
 def seed_milestones():
-    for i in range(1, 11):
+    for i in range(1, 4):
         for j in range(1, 4):
             milestone = Milestone(name=faker.sentence(), description=faker.text(), goal_id=i)
             db.session.add(milestone)

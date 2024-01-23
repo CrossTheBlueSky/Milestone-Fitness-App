@@ -72,6 +72,8 @@ class Milestone(db.Model, SerializerMixin):
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.String)
     goal_id = db.Column(db.Integer, db.ForeignKey('goals.id'), nullable=False)
+    completed = db.Column(db.Boolean, default=False)
+    completed_date = db.Column(db.String, default=None)
 
     # Relationships
     goal = db.relationship('Goal', back_populates='milestones')
