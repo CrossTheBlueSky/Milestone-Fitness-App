@@ -1,13 +1,10 @@
 import React from 'react'
-
+import ListItem from './ListItem.jsx'
 function MilestoneRibbon(props){
 
+
+    React.useEffect(()=>{oneGet()}, []) 
     const [exercises, setExercises] = React.useState([])
-
-    React.useEffect(()=>{
-        getExercises()
-    }, [])
-
     function getExercises(){
         fetch(`/api/exercises`)
         .then(r=>r.json())
@@ -15,21 +12,44 @@ function MilestoneRibbon(props){
     }
 
 
-    const allExercises = exercises.map((exercise) => { 
-        return  <>
-        <li key={exercise.name}>{exercise.name}</li>
-        </>
+    function oneGet(){
+
+        if (props.completed == false){
+
+            getExercises()
+
         }
+    }
+
+  
+
+    const allExercises = exercises.map(exercise=>{
+            return <ListItem key={exercise.id} value={exercise.name} />
+        })
+
+
+
+    
+
+    if(props.completed === true){
+
+        return(
+            <>
+            <h6>{props.name}</h6> 
+             </>
         )
+
+
+    }
 
 
     return(
         <>
         <h6>{props.name}</h6>
-        {props.completed || <button onClick={()=>props.completedHandler(props.milestone)}>Mark as Completed</button>}
+        <button onClick={()=>props.completedHandler(props.milestone)}>Mark as Completed</button>
         <ul><strong>Related Exercises</strong>
             {allExercises}
-        </ul>
+        </ul> 
         </>
     )
 }

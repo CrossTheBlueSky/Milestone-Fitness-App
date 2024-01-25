@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom"
 function WorkoutForm(props){
     const [data, setData] = React.useState({name : "", description : ""})
     const navigate = useNavigate()
-
+    
     function changeHandler(event){
         setData({...data, [event.target.name]: event.target.value})
         console.log(event.target.name)

@@ -3,7 +3,6 @@ import React from "react"
 function MilestoneForm(props){
     const [data, setData] = React.useState({name : "", description : ""})
     const [exercises, setExercises] = React.useState([])
-    let exerciseCount = 1;
     React.useEffect(()=>{
         fetch("/api/exercises")
         .then(response => response.json())
@@ -12,37 +11,37 @@ function MilestoneForm(props){
 
     function changeHandler(event){
         setData({...data, [event.target.name]: event.target.value})
-        console.log(event.target.name)
+
     }
 
 
 
     const allOptions =  exercises.map(exercise=>{
-                    return(
-                        `<option key=${exercise.id} value=${exercise.id}>${exercise.name}</option>`
-                    )
+                    return <option key={exercise.id} value={exercise.name}>{exercise.name}</option>
+                    
                 })
         
 
 
-    function addExercise(){
+    // function addExercise(){
 
-        const newExercise = document.createElement("select")
-        newExercise.name = `exercise-${exerciseCount}`
-        newExercise.id = `exercise-${exerciseCount}`
-        newExercise.onChange = changeHandler
-        newExercise.innerHTML = allOptions
-        document.getElementById("exercise-list").appendChild(newExercise)
+    //     const newExercise = document.createElement("select")
+    //     newExercise.name = `exercise-${exerciseCount}`
+    //     newExercise.id = `exercise-${exerciseCount}`
+    //     newExercise.onChange = (e)=>{changeHandler(e)}
+    //     newExercise.innerHTML = allOptions
+    //     document.getElementById("exercise-list").appendChild(newExercise)
 
-        exerciseCount++
 
-    }
+    //     exerciseCount++
 
-    function removeExercise(){
-        document.getElementById("exercise-list").lastChild.remove()
-        exerciseCount--
+    // }
 
-    }
+    // function removeExercise(){
+    //     document.getElementById("exercise-list").lastChild.remove()
+    //     exerciseCount--
+
+    // }
 
 
 
@@ -56,10 +55,11 @@ function MilestoneForm(props){
     <label htmlFor="MilestoneDescription">Milestone Description:</label>
     <input type="text" value={data.description} name="description" onChange={changeHandler} required></input>
     <label htmlFor="RelatedExercises">Related Exercises:</label>
-    <div id="exercise-list">
-    </div>
-    <button type="button" onClick={addExercise}>Add Exercise</button>
-    <button type="button" onClick={removeExercise}>Remove Exercise</button>
+    <select name="exercise-selections[]" id="exercise-selections" onChange={changeHandler} multiple>
+    <option value="">--Shift+Click to select multiple exercises--</option>
+        {allOptions}
+    </select>
+
     <button type="submit" >Submit Milestone</button>
     </form>
     

@@ -25,6 +25,8 @@ class Goal(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.String)
+    ready = db.Column(db.Boolean, default=False)
+    progress = db.Column(db.Integer, default=0)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     # Relationships
@@ -74,6 +76,7 @@ class Milestone(db.Model, SerializerMixin):
     goal_id = db.Column(db.Integer, db.ForeignKey('goals.id'), nullable=False)
     completed = db.Column(db.Boolean, default=False)
     completed_date = db.Column(db.String, default=None)
+    all_exercises = association_proxy('exercises', 'exercise')
 
     # Relationships
     goal = db.relationship('Goal', back_populates='milestones')

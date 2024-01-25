@@ -3,6 +3,7 @@ from models import *
 from flask_migrate import Migrate
 from flask import Flask, make_response, jsonify, request
 import os
+import ast
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DATABASE = os.environ.get(
@@ -38,6 +39,21 @@ def goals():
         db.session.add(new_goal)
         db.session.commit()
         return make_response(new_goal.to_dict(), 200)
+    
+@app.route('/api/goals/<int:id>', methods=['PATCH', 'DELETE'])
+def goal_by_id(id):
+    selected_goal = Goal.query.filter(Goal.id == id).first()
+    print(selected_goal)
+    if request.method == 'PATCH':
+        for attr in request.json:
+            setattr(selected_goal, attr, request.json.get(attr))
+        db.session.add(selected_goal)
+        db.session.commit()
+        return make_response(selected_goal.to_dict(), 200)
+    if request.method == 'DELETE':
+        db.session.delete(selected_goal)
+        db.session.commit()
+        return make_response(selected_goal.to_dict(), 200)
 
 @app.route('/api/exercises', methods=["GET", "POST"])
 def exercises():
@@ -96,9 +112,9 @@ def milestone():
         milestones = Milestone.query.all()
         for milestone in milestones:
             m_list.append(milestone.to_dict())
-        print(m_list)
         return make_response(m_list, 200)
     if request.method == "POST":
+        print("Attempting to post milestone")
         new_milestone = Milestone(
             name=request.json['name'],
             description=request.json['description'],
@@ -106,9 +122,25 @@ def milestone():
         )
         db.session.add(new_milestone)
         db.session.commit()
+        print("milestone created, parsing exercises")
+        all_exercises =request.json['exercises']
+        # all_exercises = ast.literal_eval(request.json['exercises'])
+        print(all_exercises)
+        for exercise in all_exercises:
+            print("adding MilestoneExercise")
+            print(exercise)
+            ex_obj = Exercise.query.filter(Exercise.name == exercise).first()
+            print(ex_obj.id)
+            new_milestone_exercise = MilestoneExercise(
+                milestone_id=new_milestone.id,
+                exercise_id=ex_obj.id
+            )
+            db.session.add(new_milestone_exercise)
+            db.session.commit()
+
         return make_response(new_milestone.to_dict(), 200)
     
-@app.route('/api/milestones/<int:id>', methods=["GET", "PATCH"])
+@app.route('/api/milestones/<int:id>', methods=["GET", "PATCH", "DELETE"])
 def milestone_by_id(id):
     print("milestone by id attempted")
     selected_milestone = Milestone.query.filter(Milestone.id == id).first()
@@ -119,6 +151,10 @@ def milestone_by_id(id):
         for attr in request.json:
             setattr(selected_milestone, attr, request.json.get(attr))
         db.session.add(selected_milestone)
+        db.session.commit()
+        return make_response(selected_milestone.to_dict(), 200)
+    if request.method == "DELETE":
+        db.session.delete(selected_milestone)
         db.session.commit()
         return make_response(selected_milestone.to_dict(), 200)
 

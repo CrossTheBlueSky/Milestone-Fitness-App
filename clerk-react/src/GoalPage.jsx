@@ -6,18 +6,39 @@ import MilestoneForm from "./MilestoneForm"
 
 function GoalPage(){
     const [milestones, setMilestones] = React.useState([])
-
-
-    React.useEffect(()=>{getMilestones()}, [])
-
+    const [progress, setProgress] = React.useState(0)
+    let location = useLocation()
+    React.useEffect(()=>{
+        getMilestones()
+    }, [])
 
     function getMilestones(){
+        setMilestones([])
         fetch ("/api/milestones")
         .then(r=>r.json())
-        .then(data => setMilestones(data))}
+        .then(data => {setMilestones(data)
+            setProgress(data.filter((m)=>m.completed===true).length)
+        }
+        )
 
+    }
+
+    function progressUpdate(){
+        let isReady = false
+        let newProgress = (milestones.filter((m)=>m.completed===true).length/milestones.length)*100
+        if(milestones.filter((m)=>m.completed===false).length===1 && milestones.length!==0){
+            newProgress = 100
+            isReady = true}
+        fetch(`/api/goals/${location.state.id}`, {method: "PATCH",
+        headers: {"Content-Type" : "application/json"},
+        body: JSON.stringify({progress: newProgress,
+        ready : isReady})})
+        getMilestones()
+
+    }
 
     function completedHandler(milestone){
+
         const patchObj = {
             completed: true,
             completed_date: new Date(Date.now()).toLocaleDateString(),
@@ -32,6 +53,7 @@ function GoalPage(){
         .then(r=>r.json())
         .then(data=>console.log(data)) 
         getMilestones()
+        progressUpdate()
         
     }
 
@@ -46,20 +68,29 @@ function GoalPage(){
         return <MilestoneRibbon key={m.id} completed={m.completed} id={m.id} name={m.name} description={m.description} />})
 
 
-
-let location = useLocation()
-
     
     function submitHandler(e){
+        const exerciseList = []
+        for (let i = 0; i < e.target['exercise-selections'].selectedOptions.length; i++){
+            exerciseList.push(e.target['exercise-selections'].selectedOptions[i].value)
+        }
+        const postObj = {
+            name: e.target.name.value,
+            description: e.target.description.value,
+            goal_id: location.state.id,
+            exercises: exerciseList
+        }
         e.preventDefault()
-        fetch("/api/Milestones", {
+        fetch("/api/milestones", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(postObj)
         })
         document.getElementById("milestone-form").close()
+        getMilestones()
+        progressUpdate()
     }
 
     function closeHandler(){
@@ -71,7 +102,7 @@ let location = useLocation()
         <>
         <Nav />
         <h1>{location.state.name}</h1>
-        <progress value="55" max="100"></progress>
+        <progress value={progress.toString()} max={milestones.length.toString()}></progress>
         <details>
             <summary>Active Milestones</summary>
             <dialog id="milestone-form">
