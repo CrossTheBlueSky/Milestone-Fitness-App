@@ -8,16 +8,16 @@ function GoalCard(props){
     const goalId = props.id
 
     function viewGoalHandler(){
-        navigate(`/goal/${goalId}`, { state: props })
+        navigate(`/goal/${goalId}`, { state: props.goal })
         
     }
 
     function deleteHandler(){
         fetch(`api/goals/${goalId}`, {method: "DELETE"})
         props.get()
-        // navigate("/")
+        navigate("/")
     }
-
+    
     let progressVal = props.progress
     if (props.ready === true){
         progressVal = 100

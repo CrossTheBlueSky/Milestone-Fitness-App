@@ -14,7 +14,7 @@ function GoalPage(){
 
     function getMilestones(){
         setMilestones([])
-        fetch ("/api/milestones")
+        fetch (`/api/milestones/${location.state.id}`)
         .then(r=>r.json())
         .then(data => {setMilestones(data)
             setProgress(data.filter((m)=>m.completed===true).length)

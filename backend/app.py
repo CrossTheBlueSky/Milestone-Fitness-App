@@ -72,6 +72,20 @@ def exercises():
         db.session.add(new_exercise)
         db.session.commit()
         return make_response(new_exercise.to_dict(), 200)
+
+@app.route('/api/exercises/<int:id>', methods=["PATCH", "DELETE"])
+def exercise_by_id(id):
+    selected_exercise = Exercise.query.filter(Exercise.id == id).first()
+    if request.method == "PATCH":
+        for attr in request.json:
+            setattr(selected_exercise, attr, request.json.get(attr))
+        db.session.add(selected_exercise)
+        db.session.commit()
+        return make_response(selected_exercise.to_dict(), 200)
+    if request.method == "DELETE":
+        db.session.delete(selected_exercise)
+        db.session.commit()
+        return make_response(selected_exercise.to_dict(), 200)
     
 @app.route('/api/workouts', methods=["GET", "POST"])
 def workouts():
@@ -90,6 +104,20 @@ def workouts():
         db.session.add(new_workout)
         db.session.commit()
         return make_response(new_workout.to_dict(), 200)
+
+@app.route('/api/workouts/<int:id>', methods=["PATCH", "DELETE"])
+def workout_by_id(id):
+    selected_workout = Workout.query.filter(Workout.id == id).first()
+    if request.method == "PATCH":
+        for attr in request.json:
+            setattr(selected_workout, attr, request.json.get(attr))
+        db.session.add(selected_workout)
+        db.session.commit()
+        return make_response(selected_workout.to_dict(), 200)
+    if request.method == "DELETE":
+        db.session.delete(selected_workout)
+        db.session.commit()
+        return make_response(selected_workout.to_dict(), 200)
 
 @app.route('/api/users', methods=["GET", "POST"])
 def user():
@@ -122,7 +150,6 @@ def milestone():
         )
         db.session.add(new_milestone)
         db.session.commit()
-        print("milestone created, parsing exercises")
         all_exercises =request.json['exercises']
         # all_exercises = ast.literal_eval(request.json['exercises'])
         print(all_exercises)
@@ -145,7 +172,11 @@ def milestone_by_id(id):
     print("milestone by id attempted")
     selected_milestone = Milestone.query.filter(Milestone.id == id).first()
     if request.method == "GET":
-        pass
+        goal_milestones = Milestone.query.filter(Milestone.goal_id == id).all()
+        m_list = []
+        for milestone in goal_milestones:
+            m_list.append(milestone.to_dict())
+        return make_response(m_list, 200)
     if request.method == "PATCH":
         print(selected_milestone)
         for attr in request.json:

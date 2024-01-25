@@ -20,7 +20,7 @@ function Dashboard() {
     const goal_cards = allGoals.map((goal)=>{
         console.log(goal)
         return (
-            <GoalCard key={goal.id} get={getGoals} id={goal.id} name={goal.name} description={goal.description} ready={goal.ready} progress={goal.progress}/>
+            <GoalCard key={goal.id} get={getGoals} goal={goal} id={goal.id} name={goal.name} description={goal.description} ready={goal.ready} progress={goal.progress}/>
         )
     })
 
