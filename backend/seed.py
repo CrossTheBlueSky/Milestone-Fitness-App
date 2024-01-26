@@ -33,48 +33,45 @@ def seed_goals():
     db.session.commit()
 
 def seed_exercises():
-    exercises = [
-        Exercise(name="Pull-up", description="Pull yourself up until your shoulders clear the bar.", user_id=1),
-        Exercise(name="Push-up", description="Push yourself up from the ground.", user_id=1),
-        Exercise(name="Chest Dip", description="Leaning forward, lower yourself between the dip bars until your elbows reach 90 degrees.", user_id=1),
-        Exercise(name="Squat", description="Lower yourself until your thighs are parallel to the ground.", user_id=1),
-        Exercise(name="Lunge", description="Step forward and lower yourself until your front thigh is parallel to the ground.", user_id=1),
-        
-    ]
 
-    db.session.add_all(exercises)
-    db.session.commit()
+    for i in range(1, 12):
+        exercise = Exercise(name=faker.word(), description=faker.sentence(), last_performed=faker.date(), user_id=i)
+
+        db.session.add(exercise)
+        db.session.commit()
 
 def seed_workouts():
-    workouts = [
-        Workout(name="Pull Day", description="A workout focused on pulling exercises.", user_id=1),
-        Workout(name="Push Day", description="A workout focused on pushing exercises.", user_id=1),
-        Workout(name="Leg Day", description="A workout focused on leg exercises.", user_id=1),
-        Workout(name="Core Day", description="A workout focused on core exercises.", user_id=1),
-        Workout(name="Plyometrics", description="A workout focused on explosive exercises.", user_id=1),
-        Workout(name="Cardio", description="A workout focused on cardiovascular exercises.", user_id=1),
-        Workout(name="Skill Day", description="A workout focused on skill exercises.", user_id=1),
-    ]
-    db.session.add_all(workouts)
-    db.session.commit()
+    for i in range(1, 4):
+            for j in range(1, 4):
+                workout = Workout(name=faker.sentence(), description=faker.text(), date_performed=faker.date(), user_id=i)
+                db.session.add(workout)
+                db.session.commit()
+                for k in range(1, 4):
+                    exercise_workout = ExerciseWorkout(workout_id=workout.id, exercise_id=k)
+                    db.session.add(exercise_workout)
+                    db.session.commit()
+
+
 
 def seed_milestones():
-    for i in range(1, 4):
+    for i in range(1, 7):
         for j in range(1, 4):
             milestone = Milestone(name=faker.sentence(), description=faker.text(), goal_id=i)
             db.session.add(milestone)
+            db.session.flush()
             for k in range(1, 4):
-                milestone_exercise = MilestoneExercise(milestone_id=j, exercise_id=k)
+                milestone_exercise = MilestoneExercise(milestone_id=milestone.id, exercise_id=k)
                 db.session.add(milestone_exercise)
             db.session.commit()
 
 if __name__ == '__main__':
+
     with app.app_context():
         db.drop_all()
         db.create_all()
         seed_users()
         seed_goals()
-        seed_milestones()
         seed_exercises()
+        seed_milestones()
         seed_workouts()
 

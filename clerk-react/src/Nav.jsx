@@ -9,7 +9,7 @@ function Nav(props){
     return (
         <nav>
         <ul>
-          <li><strong>{user.user.username}</strong></li>
+          <li><strong><a href="/account">{user.user.username}</a></strong></li>
         </ul>
         <ul>
           {location.pathname !== '/' ? <li><a href="/">View Goals</a></li> : <li><a href="/add-goal">Add Goal</a></li>}

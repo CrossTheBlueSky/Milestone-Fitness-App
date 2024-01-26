@@ -3,6 +3,7 @@ import {useLocation} from 'react-router-dom'
 import Nav from './Nav'
 import MilestoneRibbon from "./MilestoneRibbon"
 import MilestoneForm from "./MilestoneForm"
+import {useNavigate} from "react-router-dom"
 
 function GoalPage(){
     const [milestones, setMilestones] = React.useState([])
@@ -11,6 +12,8 @@ function GoalPage(){
     React.useEffect(()=>{
         getMilestones()
     }, [])
+
+    const navigate = useNavigate()
 
     function getMilestones(){
         setMilestones([])
@@ -56,11 +59,16 @@ function GoalPage(){
         progressUpdate()
         
     }
+    function deleteHandler(milestone){
+        fetch(`/api/milestones/${milestone.id}`, {method: "DELETE"})
+        setMilestones(milestones.filter((m)=>m.id!==milestone.id))
+        navigate('/')
+        }
 
     
 
     const activeRibbons = milestones.filter((m)=>m.completed===false).map((m)=>{
-        return <MilestoneRibbon key={m.id} completed={m.completed} milestone={m} id={m.id} name={m.name} description={m.description} completedHandler={completedHandler} />
+        return <MilestoneRibbon key={m.id} deleteHandler={deleteHandler} completed={m.completed} milestone={m} id={m.id} name={m.name} goal_id={location.state.id} description={m.description} completedHandler={completedHandler} />
     
     })
 
