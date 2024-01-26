@@ -17,8 +17,9 @@ The core feature of the app is the ability to add a series of progressive "miles
 ## Exercise Tracking
 Exercises are tracked separately from Milestones, Goals, and Workouts. They are all added to the app by the user, and from there can be associated freely between the other aspects of the app. Since an exercise can take many forms, there is no infrastructure in place to standardize them. The user will need to describe whatever they consider relevant to the exercise in the Description section
 
-![Exercises](milestones-1.png)
+![Exercises](exercises.png)
 
 ## Workout Tracking
 The workout tracking segment of the app is primarily meant as a way to keep track of what you've worked on recently, to help determine what you should be working on next. Since adding a workout updates any exercises performed during the workout, it helps keep track of which exercises you may have been neglecting.
 
+![Workouts](workouts.png)
