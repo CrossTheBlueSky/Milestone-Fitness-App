@@ -3,23 +3,26 @@ import GoalCard from "./GoalCard.jsx"
 import {Link} from "react-router-dom"
 import Nav from  "./Nav.jsx"
 
-function Dashboard() {
+function Dashboard(props) {
 
     React.useEffect(() => {
         getGoals()
     }, [])
 
-    const [allGoals, setAllGoals] = React.useState([])
+    const [goals, setGoals] = React.useState([])
 
     function getGoals() {
-        fetch('/api/Goals')
+        fetch('/api/goals')
         .then(r=>r.json())
-        .then(data=>setAllGoals(data))
+        .then(data=>setGoals(data))
     }
 
-    const goal_cards = allGoals.map((goal)=>{
+    const userGoals = goals.filter((g)=>g.user.id === props.user.id)
+    
+    const goal_cards = userGoals.map((goal)=>{
+        console.log(goal)
         return (
-            <GoalCard key={goal.id} id={goal.id} name={goal.name} description={goal.description} />
+            <GoalCard key={goal.id} get={getGoals} goal={goal} id={goal.id} name={goal.name} description={goal.description} ready={goal.ready} progress={goal.progress}/>
         )
     })
 
